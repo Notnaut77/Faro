@@ -1,22 +1,25 @@
-#![no_std] 
-#![no_main] 
+#![no_std]
+#![no_main]
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-use core::panic::PanicInfo;
-
-#[unsafe(no_mangle)] 
-pub extern "C" fn _start() -> ! {
-    
-    loop {}
+    #[test]
+    fn test_hello() {
+        assert_eq!(HELLO, b"Hello World!");
+    }
 }
 
+use core::panic::PanicInfo;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
+
 static HELLO: &[u8] = b"Hello World!";
 
-#[unsafe(no_mangle)]
+#[no_mangle]
 pub extern "C" fn _start() -> ! {
     let vga_buffer = 0xb8000 as *mut u8;
 
